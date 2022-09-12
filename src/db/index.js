@@ -15,8 +15,7 @@ export default new class Postgress {
         })
 
         return new Promise((resolve) => {
-            client
-                .connect()
+            client.connect()
                 .then(() => {
                     console.log('connected');
                     

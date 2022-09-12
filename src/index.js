@@ -1,9 +1,9 @@
-import Postgress from './db/index.js'
+import postgress from './db/index.js'
 import express from 'express';
 
 const port = 8080
 
-global.postgress = await Postgress.connect();
+global.postgress = await postgress.connect();
 
 const app = express()
 app.get('/', (req, res) => {

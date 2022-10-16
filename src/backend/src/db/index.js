@@ -12,13 +12,13 @@ export default new class Postgress {
             database: 'main-db',
             user: '',
             password: '',
-        })
+        });
 
         return new Promise((resolve) => {
             client.connect()
                 .then(() => {
                     console.log('connected');
-                    
+
                     this.client = client;
                     this.userService = new UserService(this.client);
                     this.gameService = new GameService(this.client);
@@ -26,6 +26,6 @@ export default new class Postgress {
                     resolve(this);
                 })
                 .catch(err => console.error('failed to connect to db', err.stack));
-        })
+        });
     }
 }

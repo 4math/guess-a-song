@@ -1,4 +1,4 @@
 {
-  "watch": ["src/index.ts", "src/**/*.ts"],
-  "ext": "ts,json"
+  "watch": ["src/index.js", "src/**/*.js"],
+  "ext": "js,json"
 }

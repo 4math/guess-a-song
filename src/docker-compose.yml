@@ -3,13 +3,19 @@ services:
   db:
     container_name: postgresql
     image: postgres
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "postgres" ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-project}
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-p@ssw0rd}
       PGDATA: /data/postgres
+      POSTGRES_DB: ${POSTGRES_DB:-project}
     volumes:
-      - postgres:/data/postgres
+      - ./postgres-data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - 5432:${POSTGRES_PORT}
     env_file:
@@ -31,7 +37,8 @@ services:
       - ./backend:/usr/local/apps/backend
       - exclude:/usr/local/apps/backend/node_modules
     depends_on:
-      - db  
+      db:
+        condition: service_healthy
 volumes:
   exclude:
-  postgres:
+  postgres-data:

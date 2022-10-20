@@ -4,7 +4,7 @@ services:
     container_name: postgresql
     image: postgres
     environment:
-      POSTGRES_DB: project
+      POSTGRES_DB: ${POSTGRES_DB:-project}
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-p@ssw0rd}
       PGDATA: /data/postgres

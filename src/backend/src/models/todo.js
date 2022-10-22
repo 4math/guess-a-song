@@ -1,10 +1,10 @@
 import { DataTypes } from "sequelize";
-import SequalizeInstance from ".";
+import SequalizeInstance from "./index.js";
 
-export const Todo = SequalizeInstance.define("todos", {
+const Todo = SequalizeInstance.define("todos", {
   id: {
     type: DataTypes.INTEGER,
-    autoIncrement: false,
+    autoIncrement: true,
     primaryKey: true,
   },
   title: {
@@ -19,4 +19,9 @@ export const Todo = SequalizeInstance.define("todos", {
     type: DataTypes.DATE,
     allowNull: false
   }
+}, {
+  // don't add the timestamp attributes (updatedAt, createdAt)
+  timestamps: false,
 });
+
+export default Todo;

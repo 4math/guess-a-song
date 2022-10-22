@@ -1,38 +1,37 @@
-import { tutorials, Sequelize } from "../models";
-const Tutorial = tutorials;
-const Op = Sequelize.Op;
+import HttpStatus from "http-status-codes";
+import Todo from "../models/todo.js";
 
-// Create and Save a new Tutorial
-export function create(req, res) {
-
+export async function getAllTodos(req, res) {
+    try {
+        const todoList = await Todo.findAll();
+        if (!todoList) throw new Error('No Todo List found');
+        res.status(HttpStatus.OK).json(todoList);
+    } catch (error) {
+        res.status(HttpStatus.NOT_FOUND).json({ message: error.message });
+    }
 }
 
-// Retrieve all Tutorials from the database.
-export function findAll(req, res) {
-
+export async function createNewTodo(req, res) {
+    try {
+        const todo = Todo.create(req.body);
+        if (!todo) throw new Error('Something went wrong saving the Todo');
+        res.status(HttpStatus.OK).json({ sucess: true });
+    } catch (error) {
+        res.status(HttpStatus.BAD_REQUEST).json({ success: false, message: error.message });
+    }
 }
 
-// Find a single Tutorial with an id
-export function findOne(req, res) {
-
-}
-
-// Update a Tutorial by the id in the request
-export function update(req, res) {
-
-}
-
-// Delete a Tutorial with the specified id in the request
-export function remove(req, res) {
-
-}
-
-// Delete all Tutorials from the database.
-export function removeAll(req, res) {
-
-}
-
-// Find all published Tutorials
-export function findAllPublished(req, res) {
-
+export async function deleteTodo(req, res) {
+    const { id } = req.params;
+    try {
+        const removed = await Todo.destroy({
+            where: {
+                "id": id
+            }
+        });
+        if (!removed) throw Error('Incorrect id was proposed!');
+        res.status(HttpStatus.OK).json({ removed: removed });
+    } catch (error) {
+        res.status(HttpStatus.BAD_REQUEST).json({ message: error.message });
+    }
 }

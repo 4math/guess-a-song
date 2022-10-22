@@ -3,11 +3,9 @@ import dotenv from "dotenv";
 import cors from "cors";
 import bodyParser from "body-parser";
 import SequalizeInstance from "./models/index.js";
-
+import Router from "./routes/index.js";
 
 dotenv.config({ path: "../.env" });
-
-// global.postgress = await postgress.connect();
 
 const port = process.env.BACKEND_PORT || 9091;
 
@@ -15,6 +13,7 @@ const app = express();
 
 SequalizeInstance.sync();
 
+// Application middlewares
 var corsOptions = {
   origin: `http://localhost:${port}`,
 };
@@ -27,17 +26,8 @@ app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const router = express.Router();
+app.use("/api", Router);
 
-router.get("/", async (req, res) => {
-  res.send("Hello World!");
-});
-
-router.get("/smile", async (req, res) => {
-  res.status(200).json("Smile, bitch!");
-});
-
-app.use("/api", router);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

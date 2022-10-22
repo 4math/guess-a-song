@@ -6,7 +6,7 @@ WHERE NOT EXISTS (
 )\gexec 
 
 CREATE TABLE IF NOT EXISTS todos ( 
-    id INT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     title VARCHAR(50) NOT NULL,
     body VARCHAR NULL,
     published DATE NOT NULL

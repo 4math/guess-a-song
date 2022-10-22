@@ -1,9 +1,13 @@
 SELECT 'CREATE DATABASE project'
-WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'project')\gexec
+WHERE NOT EXISTS (
+    SELECT
+    FROM pg_database
+    WHERE datname = 'project'
+)\gexec 
 
-create table if not exists tutorials (
-    id int primary key,
-    title varchar(50) not null,
-    description varchar(255) null,
-    published date not null
+CREATE TABLE IF NOT EXISTS todos ( 
+    id INT PRIMARY KEY,
+    title VARCHAR(50) NOT NULL,
+    body VARCHAR NULL,
+    published DATE NOT NULL
 );

@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import bodyParser from "body-parser";
-import db from "./models/index.js";
+import SequalizeInstance from "./models/index.js";
 
 
 dotenv.config({ path: "../.env" });
@@ -13,7 +13,7 @@ const port = process.env.BACKEND_PORT || 9091;
 
 const app = express();
 
-db.sequelize.sync();
+SequalizeInstance.sync();
 
 var corsOptions = {
   origin: `http://localhost:${port}`,

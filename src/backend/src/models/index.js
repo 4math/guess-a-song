@@ -1,8 +1,7 @@
-import { pgConnection } from "../config/db.config.js";
+import { pgConnection } from "../config/db.js";
 import { Sequelize } from "sequelize";
-import Tutorial from "./tutorial.model.js"
 
-export const sequelize = new Sequelize(
+const SequelizeInstance = new Sequelize(
   pgConnection.DB,
   pgConnection.USER,
   pgConnection.PASSWORD,
@@ -18,11 +17,4 @@ export const sequelize = new Sequelize(
   }
 );
 
-const db = {};
-
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
-
-db.tutorials = Tutorial(sequelize, Sequelize);
-
-export default db;
+export default SequelizeInstance;

@@ -39,6 +39,24 @@ services:
     depends_on:
       db:
         condition: service_healthy
+  frontend:
+    container_name: frontend
+    restart: unless-stopped
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      # args:
+      #   - PORT=${BACKEND_PORT}
+    ports:
+      - "5173:5173"
+    env_file:
+      - .env
+    volumes:
+      - ./frontend:/usr/local/apps/frontend
+      - exclude:/usr/local/apps/frontend/node_modules
+    depends_on:
+      db:
+        condition: service_healthy
 volumes:
   exclude:
   postgres-data:

@@ -35,7 +35,7 @@ services:
       - .env
     volumes:
       - ./backend:/usr/local/apps/backend
-      - exclude:/usr/local/apps/backend/node_modules
+      - exclude_back:/usr/local/apps/backend/node_modules
     depends_on:
       db:
         condition: service_healthy
@@ -45,18 +45,19 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-      # args:
-      #   - PORT=${BACKEND_PORT}
+      args:
+        - PORT=${VITE_PORT}
     ports:
-      - "5173:5173"
+      - 5173:${VITE_PORT}
     env_file:
       - .env
     volumes:
       - ./frontend:/usr/local/apps/frontend
-      - exclude:/usr/local/apps/frontend/node_modules
+      - exclude_front:/usr/local/apps/frontend/node_modules
     depends_on:
       db:
         condition: service_healthy
 volumes:
-  exclude:
+  exclude_front:
+  exclude_back:
   postgres-data:

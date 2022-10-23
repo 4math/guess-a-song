@@ -13,19 +13,11 @@
       <br />
       <input
         class="input"
-        v-model="description"
+        v-model="body"
         type="text"
         name="description"
         placeholder="Enter Description"
       />
-      <!-- <el-input
-        v-model="body"
-        class="w-100 m-4"
-        size="large"
-        placeholder="Enter Description"
-        name="description"
-        type="text"
-      /> -->
       <br />
       <button class="submit-button" @click="addTodo">Add Todo</button>
     </form>
@@ -149,7 +141,7 @@ h3 {
   font-weight: bold;
 }
 
-.todo-description {
+.todo-body {
   max-width: 70%;
   font-size: 14px;
 }

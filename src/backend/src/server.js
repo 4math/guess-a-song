@@ -15,7 +15,7 @@ SequalizeInstance.sync();
 
 // Application middlewares
 var corsOptions = {
-  origin: `http://localhost:${port}`,
+  origin: `http://localhost:${process.env.VITE_PORT}`,
 };
 
 app.use(cors(corsOptions));

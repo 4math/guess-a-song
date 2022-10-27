@@ -2,16 +2,17 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import bodyParser from "body-parser";
-import SequalizeInstance from "./models/index.js";
-import Router from "./routes/index.js";
 
-dotenv.config({ path: "../.env" });
+import Router from "./routes/index.js";
+import { PgClient } from "./db/index.js";
+
+dotenv.config({ path: "./../../.env" });
 
 const port = process.env.BACKEND_PORT || 9091;
 
 const app = express();
 
-SequalizeInstance.sync();
+PgClient.connect();
 
 // Application middlewares
 var corsOptions = {

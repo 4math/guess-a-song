@@ -1,11 +1,11 @@
 import HttpStatus from "http-status-codes";
-import Todo from "../models/todo.js";
+import { PgClient } from "../db/index.js";
 
 export async function getAllTodos(req, res) {
     try {
-        const todoList = await Todo.findAll();
+        const todoList = await PgClient.query("select * from todos;");
         if (!todoList) throw new Error('No Todo List found');
-        res.status(HttpStatus.OK).json(todoList);
+        res.status(HttpStatus.OK).json(todoList.rows);
     } catch (error) {
         res.status(HttpStatus.NOT_FOUND).json({ message: error.message });
     }
@@ -13,7 +13,12 @@ export async function getAllTodos(req, res) {
 
 export async function createNewTodo(req, res) {
     try {
-        const todo = Todo.create(req.body);
+        const query = `
+            insert into todos (title, body, published)
+            values ($1, $2, $3)
+        `;
+        console.log(req.body);
+        const todo = await PgClient.query(query, Object.values(req.body));
         if (!todo) throw new Error('Something went wrong saving the Todo');
         res.status(HttpStatus.OK).json({ sucess: true });
     } catch (error) {
@@ -24,13 +29,13 @@ export async function createNewTodo(req, res) {
 export async function deleteTodo(req, res) {
     const { id } = req.params;
     try {
-        const removed = await Todo.destroy({
-            where: {
-                "id": id
-            }
-        });
+        const query = `
+            delete from todos
+            where id = $1;
+        `;
+        const removed = await PgClient.query(query, [id]);
         if (!removed) throw Error('Incorrect id was proposed!');
-        res.status(HttpStatus.OK).json({ removed: removed });
+        res.status(HttpStatus.OK).json({ removed: removed.rowCount });
     } catch (error) {
         res.status(HttpStatus.BAD_REQUEST).json({ message: error.message });
     }

@@ -15,7 +15,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-project}
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./src/db/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - 5432:${POSTGRES_PORT}
     env_file:
@@ -25,7 +25,7 @@ services:
     container_name: backend
     restart: unless-stopped
     build:
-      context: ./backend
+      context: ./src/backend
       dockerfile: Dockerfile
       args:
         - PORT=${BACKEND_PORT}
@@ -34,7 +34,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./backend:/usr/local/apps/backend
+      - ./src/backend:/usr/local/apps/backend
       - exclude_back:/usr/local/apps/backend/node_modules
     depends_on:
       db:
@@ -43,7 +43,7 @@ services:
     container_name: frontend
     restart: unless-stopped
     build:
-      context: ./frontend
+      context: ./src/frontend
       dockerfile: Dockerfile
       args:
         - PORT=${VITE_PORT}
@@ -52,7 +52,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./frontend:/usr/local/apps/frontend
+      - ./src/frontend:/usr/local/apps/frontend
       - exclude_front:/usr/local/apps/frontend/node_modules
     depends_on:
       db:

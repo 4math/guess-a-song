@@ -15,12 +15,15 @@ export async function createNewTodo(req, res) {
     try {
         const query = `
             insert into todos (title, body, published)
-            values ($1, $2, $3)
+            values ($1, $2, $3);
         `;
-        console.log(req.body);
-        const todo = await PgClient.query(query, Object.values(req.body));
+        await PgClient.query(query, Object.values(req.body));
+        const queryId = `
+            select currval(pg_get_serial_sequence('todos','id'));
+        `;
+        const todo = await PgClient.query(queryId);
         if (!todo) throw new Error('Something went wrong saving the Todo');
-        res.status(HttpStatus.OK).json({ sucess: true });
+        res.status(HttpStatus.OK).json({ sucess: true, id: todo.rows[0].currval });
     } catch (error) {
         res.status(HttpStatus.BAD_REQUEST).json({ success: false, message: error.message });
     }

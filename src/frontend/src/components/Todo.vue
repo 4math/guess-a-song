@@ -19,11 +19,19 @@
         placeholder="Enter Description"
       />
       <br />
+      <input
+        class="input"
+        v-model="published"
+        type="date"
+        name="published"
+        placeholder="Enter Publishing date"
+      />
+      <br />
       <button class="submit-button" @click="addTodo">Add Todo</button>
     </form>
     <div class="todo-container">
       <ul>
-        <li v-for="(todo, i) in todos" :key="todo._id">
+        <li v-for="(todo, i) in todos" :key="todo.id">
           <div class="todo">
             <span class="todo-name">{{ todo.title }}</span>
             <span class="todo-body">{{ todo.body }}</span>
@@ -57,17 +65,23 @@ export default {
   methods: {
     async addTodo(e) {
       e.preventDefault();
-      const response = await axios.post("api/", {
+      const request = {
         title: this.title,
         body: this.body,
-        publisehd: this.published,
-      });
-      this.todos.push(response.data);
+        published: this.published,
+      };
+      const response = await axios.post("api/", request);
+      if (response.data.success) {
+        request.id = response.id;
+        this.todos.push(request);
+      }
+      console.log(this.todos);
       this.title = "";
-      this.description = "";
+      this.body = "";
+      this.published = "";
     },
     async removeTodo(item, i) {
-      await axios.delete("api/" + item._id);
+      await axios.delete("api/" + item.id);
       this.todos.splice(i, 1);
     },
   },

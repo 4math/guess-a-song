@@ -1,5 +1,4 @@
 import pkg from "pg";
-// import { Client } from "pg";
 const { Client } = pkg;
 
 export const PgClient = new Client({

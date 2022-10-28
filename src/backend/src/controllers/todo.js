@@ -23,7 +23,7 @@ export async function createNewTodo(req, res) {
         `;
         const todo = await PgClient.query(queryId);
         if (!todo) throw new Error('Something went wrong saving the Todo');
-        res.status(HttpStatus.OK).json({ sucess: true, id: todo.rows[0].currval });
+        res.status(HttpStatus.OK).json({ success: true, id: todo.rows[0].currval });
     } catch (error) {
         res.status(HttpStatus.BAD_REQUEST).json({ success: false, message: error.message });
     }

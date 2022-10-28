@@ -72,10 +72,9 @@ export default {
       };
       const response = await axios.post("api/", request);
       if (response.data.success) {
-        request.id = response.id;
+        request.id = response.data.id;
         this.todos.push(request);
       }
-      console.log(this.todos);
       this.title = "";
       this.body = "";
       this.published = "";

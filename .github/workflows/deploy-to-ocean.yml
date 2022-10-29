@@ -17,7 +17,7 @@ jobs:
         with:
           HOST: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
-          KEY: ${{ secrets.SSHKEY }}
+          PASSWORD: ${{ secrets.PASSWORD }}
           script: |
             # cd into a project folder
             cd guess-a-song

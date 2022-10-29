@@ -7,7 +7,7 @@ Guess a song full-stack application for the university project
 Run the following command for development:
 
 ```plain
-docker compose -f docker-compose.dev.yml up
+docker compose up
 ```
 
 Run the following command for production:

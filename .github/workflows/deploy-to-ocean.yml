@@ -1,0 +1,30 @@
+name: Build and deploy solution to DigitalOcean
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v2
+  
+      - name: Build and deploy to Digital Ocean droplet via SSH action
+        uses: appleboy/ssh-action@v0.1.3
+        with:
+          HOST: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          KEY: ${{ secrets.SSHKEY }}
+          script: |
+            # cd into a project folder
+            cd guess-a-song
+            
+            # Stop existing running containers
+            docker stop $(docker ps -a -q)
+
+            # Run a docker-compose file
+            docker compose \
+            -f docker-compose.prod.yml up \
+            --build --force-recreate --detach

@@ -20,7 +20,11 @@ jobs:
           PASSWORD: ${{ secrets.PASSWORD }}
           script: |
             # cd into a project folder
-            cd guess-a-song
+            cd ~/project/guess-a-song
+            
+            git fetch
+            git checkout ${GITHUB_REF##*/}
+            git pull
             
             # Stop existing running containers
             docker stop $(docker ps -a -q)

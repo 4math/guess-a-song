@@ -1,0 +1,62 @@
+version: '3.4'
+services:
+  db:
+    container_name: postgresql
+    image: postgres
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "postgres" ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-p@ssw0rd}
+      PGDATA: /data/postgres
+      POSTGRES_DB: ${POSTGRES_DB:-project}
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+      - ./src/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 5432:${POSTGRES_PORT}
+    restart: always
+
+  backend:
+    container_name: backend
+    build:
+      context: ./src/backend
+      dockerfile: Dockerfile
+      args:
+        - PORT=${BACKEND_PORT}
+    ports:
+      - 9091:${BACKEND_PORT}
+    env_file: .env
+    volumes:
+      - ./src/backend:/usr/local/apps/backend
+      - exclude_back:/usr/local/apps/backend/node_modules
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    container_name: frontend
+    restart: unless-stopped
+    build:
+      context: ./src/frontend
+      dockerfile: Dockerfile
+      args:
+        - PORT=${FRONTEND_PORT}
+    ports:
+      - 5173:${FRONTEND_PORT}
+    env_file: .env
+    volumes:
+      - ./src/frontend:/usr/local/apps/frontend
+      - exclude_front:/usr/local/apps/frontend/node_modules
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  exclude_front:
+  exclude_back:
+  postgres-data:

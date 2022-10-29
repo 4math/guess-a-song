@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "start:prd": "node src/server.js",
+    "start:prod": "node src/server.js",
     "start:dev": "nodemon --legacy-watch src/server.js"
   },
   "repository": {

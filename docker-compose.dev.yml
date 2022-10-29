@@ -18,45 +18,44 @@ services:
       - ./src/db/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - 5432:${POSTGRES_PORT}
-    env_file:
-      - .env
     restart: unless-stopped
+
   backend:
     container_name: backend
-    restart: unless-stopped
     build:
       context: ./src/backend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
       args:
         - PORT=${BACKEND_PORT}
     ports:
       - 9091:${BACKEND_PORT}
-    env_file:
-      - .env
     volumes:
       - ./src/backend:/usr/local/apps/backend
       - exclude_back:/usr/local/apps/backend/node_modules
+    restart: unless-stopped
+    env_file: .env
     depends_on:
       db:
         condition: service_healthy
+
   frontend:
     container_name: frontend
-    restart: unless-stopped
     build:
       context: ./src/frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
       args:
-        - PORT=${VITE_PORT}
+        - PORT=${FRONTEND_PORT}
     ports:
-      - 5173:${VITE_PORT}
-    env_file:
-      - .env
+      - 5173:${FRONTEND_PORT}
     volumes:
       - ./src/frontend:/usr/local/apps/frontend
       - exclude_front:/usr/local/apps/frontend/node_modules
+    restart: unless-stopped
+    env_file: .env
     depends_on:
       db:
         condition: service_healthy
+
 volumes:
   exclude_front:
   exclude_back:

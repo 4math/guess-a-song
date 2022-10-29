@@ -4,10 +4,16 @@ Guess a song full-stack application for the university project
 
 ## How to run it?
 
-Go to the `src` folder and use the command:
+Run the following command for development:
 
 ```plain
-docker compose up
+docker compose -f docker-compose.dev.yml up
+```
+
+Run the following command for production:
+
+```plain
+docker compose -f docker-compose.prod.yml up
 ```
 
 Frontend is located on `http://localhost:5173`, but backend is located on `http://localhost:9091`

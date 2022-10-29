@@ -16,7 +16,7 @@
         v-model="body"
         type="text"
         name="description"
-        placeholder="Enter Description"
+        placeholder="Enter Todo Description"
       />
       <br />
       <input

@@ -20,7 +20,7 @@ jobs:
             cd ~/project/guess-a-song
             
             git fetch
-            git checkout ${GITHUB_REF##*/}
+            git checkout ${GITHUB_REF_NAME}
             git pull
             
             # Stop existing running containers

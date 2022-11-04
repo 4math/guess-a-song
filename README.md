@@ -16,4 +16,4 @@ Run the following command for production:
 docker compose -f docker-compose.prod.yml up
 ```
 
-Frontend is located on `http://localhost:5173`, but backend is located on `http://localhost:9091`
+Frontend is located on `http://localhost:80`, but backend is located on `http://localhost:9091`

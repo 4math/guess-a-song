@@ -9,7 +9,7 @@ export default () => {
     envDir: "./../../",
     plugins: [vue()],
     server: {
-      port: 5173, // better to have it in .env, but quite hard to configure
+      port: 80, // better to have it in .env, but quite hard to configure
       watch: {
         usePolling: true,
       },

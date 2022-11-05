@@ -26,13 +26,12 @@ export default {
     this.tableData = response.data;
   },
   methods: {
-    tableRowClassName(row, rowIndex) {
+    tableRowClassName(row) {
       console.log(row);
-      console.log(rowIndex);
-      if (rowIndex === 0) {
+      if (row.rowIndex === 0) {
         console.log("Warning!");
         return "warning-row";
-      } else if (rowIndex === 3) {
+      } else if (row.rowIndex === 3) {
         return "success-row";
       }
       return "";
@@ -41,7 +40,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .el-table {
   margin: auto;
 }

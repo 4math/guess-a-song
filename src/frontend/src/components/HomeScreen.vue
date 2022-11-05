@@ -47,8 +47,9 @@ const images = ["data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMT
   top: 80%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: x-large;
+  font-size: xx-large;
   /* background-color: white; */
   color: white;
+  font-weight: 1000;
 }
 </style>

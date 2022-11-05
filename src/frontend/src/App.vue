@@ -1,44 +1,18 @@
 <template>
-  <el-menu
-    :default-active="activeIndex"
-    class="el-menu-demo"
-    mode="horizontal"
-    :ellipsis="false"
-    router="true"
-    @select="handleSelect"
-  >
-    <el-menu-item index="0" route="/">Guess a Song</el-menu-item>
-    <div class="flex-grow" />
-    <el-menu-item index="1" route="/leaderboard">Leaderboard</el-menu-item>
-    <el-menu-item index="2" disabled class="username">Username</el-menu-item>
-  </el-menu>
+  <NavBar />
   <RouterView />
 </template>
 
 <script>
-// import TodoComponent from "./components/Todo.vue";
+import NavBar from "./components/NavBar.vue";
 export default {
   name: "App",
-  components: {},
+  components: { NavBar },
   data() {
-    return {
-      activeIndex: "1",
-    };
+    return {};
   },
-  methods: {
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-    },
-  },
+  methods: {},
 };
 </script>
 
-<style scoped>
-.flex-grow {
-  flex-grow: 1;
-}
-
-.el-menu-item__disabled {
-  color: red;
-}
-</style>
+<style scoped></style>

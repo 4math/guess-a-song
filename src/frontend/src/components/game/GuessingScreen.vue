@@ -79,8 +79,12 @@ export default {
     },
     calculateScore(isWin) {
       if (isWin) {
-        this.roundScore *= this.currentPlayTime / 15;
+        this.roundScore *=
+          (this.songFragment.duration - this.songFragment.currentTime) /
+            this.songFragment.duration +
+          0.05;
         this.roundScore = Math.floor(this.roundScore);
+        this.roundScore = Math.min(this.roundScore, 1000);
         return;
       }
       this.roundScore = 0;
@@ -101,7 +105,6 @@ export default {
   },
   watch: {
     percentage(newValue) {
-      console.log(this.currentPlayTime);
       if (newValue === 100) {
         this.isRoundEnd = true;
         this.songFragment.removeEventListener(

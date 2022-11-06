@@ -80,6 +80,8 @@ export async function getMaterial(req, res) {
 
         const cutSongPath = await cutSong(correctSongResult.song_path, 15);
         const results = {
+            songAuthor: correctSongResult.song_author,
+            songName: correctSongResult.song_name,
             guessingTheme: correctSongResult.guessing_theme,
             correctAnswer: correctSongResult.guessing_theme === "bandName" ? correctSongResult.song_author : correctSongResult.song_name,
             incorrectAnswers: incorrectAnswers,

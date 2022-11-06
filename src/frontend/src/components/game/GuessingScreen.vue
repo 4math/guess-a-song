@@ -2,7 +2,7 @@
   <div class="main flex justify-between items-center flex-wrap">
     <div>
       <el-progress type="dashboard" :percentage="percentage" :color="colors">
-        {{ currentTime }}
+        {{ currentPlayTime }}
       </el-progress>
     </div>
     <div class="row">
@@ -21,6 +21,13 @@
         answers[3]
       }}</el-button>
     </div>
+    <p>
+      <span>{{ userAnswer }}</span>
+    </p>
+    <p v-if="isRoundEnd"><b>Score: </b>{{ roundScore }}</p>
+    <el-button round="true" @click="() => {}" v-if="isRoundEnd"
+      >Next round</el-button
+    >
   </div>
 </template>
 
@@ -34,7 +41,10 @@ export default {
       correctAnswer: "",
       songFragment: null,
       percentage: 0,
-      currentTime: 0,
+      currentPlayTime: 0,
+      userAnswer: "",
+      roundScore: 1000,
+      isRoundEnd: false,
       colors: [
         { color: "#f56c6c", percentage: 100 },
         { color: "#e6a23c", percentage: 80 },
@@ -49,26 +59,40 @@ export default {
     this.$el.addEventListener("click", () => {
       this.playSound();
     });
-    this.songFragment.addEventListener("timeupdate", () => {
-      this.currentTime = Math.round(
-        this.songFragment.duration - this.songFragment.currentTime
-      );
-      this.percentage = 100 - this.convertToPercentage(this.currentTime);
-    });
+    this.songFragment.addEventListener("timeupdate", this.updateSongTime);
   },
   methods: {
     giveAnswer(answer) {
       this.songFragment.pause();
-      // this.songFragment.currentTime = 0;
-      // this.songFragment.src = null;
       if (answer === this.correctAnswer) {
-        console.log("Hey, it is correct!");
+        this.userAnswer = "Answer: A correct one!";
+        this.calculateScore(true);
+      } else {
+        this.userAnswer = `Answer: A wrong one! Correct is ${this.correctAnswer}`;
+        this.calculateScore(false);
       }
+      this.isRoundEnd = true;
+      this.songFragment.removeEventListener("timeupdate", this.updateSongTime);
+    },
+    calculateScore(isWin) {
+      if (isWin) {
+        this.roundScore *= 1 - this.percentage / 100;
+        this.roundScore = Math.floor(this.roundScore);
+        return;
+      }
+      this.roundScore = 0;
+    },
+    updateSongTime() {
+      this.currentPlayTime = Math.round(
+        this.songFragment.duration - this.songFragment.currentTime
+      );
+      this.percentage = 100 - this.convertToPercentage(this.currentPlayTime);
     },
     convertToPercentage(num) {
       return (num * 100) / 15;
     },
     playSound() {
+      this.songFragment.autoplay = true;
       this.songFragment.play();
     },
     async getMaterial() {
@@ -79,9 +103,7 @@ export default {
       this.correctAnswer = data.correctAnswer;
       this.answers.push(data.correctAnswer);
       this.answers.push(...data.incorrectAnswers);
-      console.log(this.answers);
       this.shuffleArray(this.answers);
-      console.log(this.answers);
 
       this.songFragment = new Audio(
         `${axios.defaults.baseURL}api/playSong/${encodeURIComponent(

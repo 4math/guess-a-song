@@ -62,6 +62,12 @@ export default {
     };
   },
   async created() {
+    if (localStorage.gameId) {
+      localStorage.removeItem("gameId");
+    }
+    if (localStorage.genre) {
+      localStorage.removeItem("genre");
+    }
     await this.createUser();
   },
   methods: {
@@ -90,8 +96,8 @@ export default {
         username: localStorage.getItem("username"),
         genre: genre,
       });
-      console.log(response);
       localStorage.setItem("gameId", response.data.gameId);
+      localStorage.setItem("genre", genre);
       this.$router.push("/play");
     },
   },

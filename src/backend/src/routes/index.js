@@ -1,7 +1,7 @@
 import express from "express";
 import { createNewTodo, deleteTodo, getAllTodos } from "../controllers/todo.js";
 import { getLeaderboard } from "../controllers/leaderboard.js";
-import { putGameRoundScore, startGame, getMaterial, playSong } from "../controllers/game.js";
+import { updateGameRoundScore, startGame, getMaterial, playSong } from "../controllers/game.js";
 import { createUser } from "../controllers/user.js";
 
 const Router = express.Router();
@@ -20,7 +20,7 @@ Router.post('/startGame', async (req, res) => startGame(req, res));
 
 Router.get('/playSong/:songPath', async (req, res) => playSong(req, res));
 
-Router.put('/gameRound/:gameId/:round', async (req, res) => putGameRoundScore(req, res));
+Router.put('/gameRound/:gameId/:round', async (req, res) => updateGameRoundScore(req, res));
 
 Router.get('/material/:gameId/:round', async (req, res) => getMaterial(req, res));
 

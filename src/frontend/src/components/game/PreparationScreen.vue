@@ -7,7 +7,7 @@
     </p>
     <p>
       <span
-        >Music genre: <b>{{ genre }}</b></span
+        >Music genre: <b>{{ genre.toUpperCase() }}</b></span
       >
     </p>
     <p>
@@ -37,13 +37,13 @@ export default {
   },
   methods: {
     getGenreEmoji() {
-      if (this.genre === "Rock") {
+      if (this.genre === "rock") {
         return `🎸`;
-      } else if (this.genre === "Pop") {
+      } else if (this.genre === "pop") {
         return `🎤`;
-      } else if (this.genre === "Rap") {
+      } else if (this.genre === "rap") {
         return `🚀`;
-      } else if (this.genre === "Latvian") {
+      } else if (this.genre === "latvian") {
         return `🌼`;
       }
     },

@@ -81,7 +81,7 @@ export async function getMaterial(req, res) {
         const cutSongPath = await cutSong(correctSongResult.song_path, 15);
         const results = {
             guessingTheme: correctSongResult.guessing_theme,
-            correctAnswer: correctSongResult.guessing_theme === "bandName" ? correctSongResult.band_name : correctSongResult.song_name,
+            correctAnswer: correctSongResult.guessing_theme === "bandName" ? correctSongResult.song_author : correctSongResult.song_name,
             incorrectAnswers: incorrectAnswers,
             songPath: cutSongPath
         };
@@ -92,7 +92,7 @@ export async function getMaterial(req, res) {
     }
 }
 
-export async function putGameRoundScore(req, res) {
+export async function updateGameRoundScore(req, res) {
     try {
         const { score } = req.body;
         const gameId = req.params.gameId;

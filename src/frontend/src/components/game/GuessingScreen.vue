@@ -25,20 +25,18 @@
       <span>{{ userAnswer }}</span>
     </p>
     <p v-if="isRoundEnd"><b>Score: </b>{{ roundScore }}</p>
-    <el-button round="true" @click="() => {}" v-if="isRoundEnd"
+    <el-button round="true" @click="nextRound" v-if="isRoundEnd"
       >Next round</el-button
     >
   </div>
 </template>
 
 <script>
-import axios from "axios";
 export default {
   name: "GuessingScreen",
+  props: ["answers", "correctAnswer", "songLink"],
   data() {
     return {
-      answers: [],
-      correctAnswer: "",
       songFragment: null,
       percentage: 0,
       currentPlayTime: 0,
@@ -54,16 +52,21 @@ export default {
       ],
     };
   },
-  async mounted() {
-    await this.getMaterial();
-    this.$el.addEventListener("click", () => {
-      this.playSound();
-    });
+  async created() {
+    this.songFragment = new Audio(this.songLink);
     this.songFragment.addEventListener("timeupdate", this.updateSongTime);
   },
+  mounted() {
+    this.playSound();
+  },
   methods: {
+    nextRound() {
+      this.playSound();
+      this.songFragment.src = null;
+      this.songFragment.currentTime = 0;
+      this.$emit("done-guessing", this.roundScore);
+    },
     giveAnswer(answer) {
-      this.songFragment.pause();
       if (answer === this.correctAnswer) {
         this.userAnswer = "Answer: A correct one!";
         this.calculateScore(true);
@@ -76,7 +79,7 @@ export default {
     },
     calculateScore(isWin) {
       if (isWin) {
-        this.roundScore *= 1 - this.percentage / 100;
+        this.roundScore *= this.currentPlayTime / 15;
         this.roundScore = Math.floor(this.roundScore);
         return;
       }
@@ -95,39 +98,18 @@ export default {
       this.songFragment.autoplay = true;
       this.songFragment.play();
     },
-    async getMaterial() {
-      const response = await axios.get(
-        "/api/material/e39f96a7-9692-407b-9baf-f3a158de531b/1"
-      );
-      const data = response.data;
-      this.correctAnswer = data.correctAnswer;
-      this.answers.push(data.correctAnswer);
-      this.answers.push(...data.incorrectAnswers);
-      this.shuffleArray(this.answers);
-
-      this.songFragment = new Audio(
-        `${axios.defaults.baseURL}api/playSong/${encodeURIComponent(
-          data.songPath
-        )}`
-      );
-    },
-    shuffleArray(array) {
-      let currentIndex = array.length,
-        randomIndex;
-
-      // While there remain elements to shuffle.
-      while (currentIndex != 0) {
-        // Pick a remaining element.
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex--;
-
-        // And swap it with the current element.
-        [array[currentIndex], array[randomIndex]] = [
-          array[randomIndex],
-          array[currentIndex],
-        ];
+  },
+  watch: {
+    percentage(newValue) {
+      console.log(this.currentPlayTime);
+      if (newValue === 100) {
+        this.isRoundEnd = true;
+        this.songFragment.removeEventListener(
+          "timeupdate",
+          this.updateSongTime
+        );
+        this.calculateScore(false);
       }
-      return array;
     },
   },
 };

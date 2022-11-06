@@ -10,7 +10,9 @@
     <el-menu-item index="0" route="/">Guess a Song</el-menu-item>
     <div class="flex-grow" />
     <el-menu-item index="1" route="/leaderboard">Leaderboard</el-menu-item>
-    <el-menu-item index="2" disabled class="username">Username</el-menu-item>
+    <el-menu-item index="2" disabled class="username">{{
+      username
+    }}</el-menu-item>
   </el-menu>
 </template>
 
@@ -20,7 +22,13 @@ export default {
   data() {
     return {
       activeIndex: "0",
+      username: "",
     };
+  },
+  mounted() {
+    if (localStorage.username) {
+      this.username = localStorage.username;
+    }
   },
   methods: {
     handleSelect(key, keyPath) {

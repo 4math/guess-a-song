@@ -7,11 +7,9 @@
     v-if="currentScreen === 1"
   />
   <GuessingScreen v-if="currentScreen === 2" />
-  <RoundResultScreen v-if="currentScreen === 3" />
 </template>
 
 <script>
-import RoundResultScreen from "./RoundResultScreen.vue";
 import PreparationScreen from "./PreparationScreen.vue";
 import GuessingScreen from "./GuessingScreen.vue";
 export default {
@@ -19,7 +17,6 @@ export default {
   components: {
     GuessingScreen,
     PreparationScreen,
-    RoundResultScreen,
   },
   data() {
     return {

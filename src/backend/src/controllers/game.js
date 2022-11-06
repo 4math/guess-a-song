@@ -179,7 +179,7 @@ export async function startGame(req, res) {
             ]);
         }
 
-        res.status(HttpStatus.OK).json(gameId);
+        res.status(HttpStatus.OK).json({ gameId: gameId.game_id });
     } catch (error) {
         res.status(HttpStatus.BAD_REQUEST).json({ message: error.message });
     }

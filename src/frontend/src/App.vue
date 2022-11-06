@@ -1,5 +1,5 @@
 <template>
-  <NavBar />
+  <NavBar v-if="notGameScreen" />
   <RouterView />
 </template>
 
@@ -10,6 +10,14 @@ export default {
   components: { NavBar },
   data() {
     return {};
+  },
+  computed: {
+    notGameScreen() {
+      if (this.$route.path == "/play") {
+        return false;
+      }
+      return true;
+    },
   },
   methods: {},
 };

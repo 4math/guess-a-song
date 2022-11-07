@@ -9,9 +9,11 @@ export async function getLeaderboard(req, res) {
                 row_number() over(order by score desc) as number,
                 u.user_name as username,
                 s.score,
+                g.game_regime as genre,
                 s.score_received_at as date
             from scoreboard s
             inner join users u on u.user_id = s.user_id
+            inner join games g on g.game_id = s.game_id
             order by score desc;
         `;
         const scoreboardList = await PgClient.query(query);

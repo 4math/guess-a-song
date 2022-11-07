@@ -62,9 +62,8 @@ export default {
         await this.endGame();
         return;
       }
-      this.currentScreen = 1;
-      this.answers = [];
       await this.getMaterial();
+      this.currentScreen = 1;
     },
     async preparationScreenReady() {
       this.currentScreen = 2;
@@ -74,12 +73,13 @@ export default {
         `/api/material/${this.gameId}/${this.round}`
       );
       const data = response.data;
+      this.whatToGuess = data.guessingTheme;
       this.correctAnswer = data.correctAnswer;
+      this.answers = [];
       this.answers.push(data.correctAnswer);
       this.answers.push(...data.incorrectAnswers);
       this.shuffleArray(this.answers);
 
-      this.whatToGuess = data.guessingTheme;
       this.songLink = `${
         axios.defaults.baseURL
       }api/playSong/${encodeURIComponent(data.songPath)}`;

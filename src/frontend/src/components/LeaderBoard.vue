@@ -7,6 +7,7 @@
     <el-table-column prop="number" label="No." width="180" />
     <el-table-column prop="username" label="UserName" width="180" />
     <el-table-column prop="score" label="Score" />
+    <el-table-column prop="genre" label="Genre" />
     <el-table-column prop="date" label="Date" />
   </el-table>
 </template>

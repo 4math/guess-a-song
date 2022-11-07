@@ -28,11 +28,11 @@ export default {
   props: ["round", "genre", "whatToGuess"],
   data() {
     return {
-      countDown: 3,
+      countDown: 4,
     };
   },
   created() {
-    this.countDown = 3;
+    this.countDown = 4;
     this.countDownTimer();
   },
   methods: {

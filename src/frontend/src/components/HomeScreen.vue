@@ -82,6 +82,8 @@ export default {
           if (response.status === 200) {
             message = 200;
             localStorage.setItem("username", username);
+            localStorage.setItem("userId", response.data.userId);
+            this.$emitter.emit("setup-user", username);
           }
         }
       }

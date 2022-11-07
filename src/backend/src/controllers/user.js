@@ -1,6 +1,7 @@
 import HttpStatus from "http-status-codes";
 import moment from "moment";
 import { PgClient } from "../db/index.js";
+import { dateNow } from "./game.js";
 
 export async function createUser(req, res) {
     try {
@@ -30,12 +31,12 @@ export async function createUser(req, res) {
             ) returning user_id;
         `;
 
-        const user_id = (await PgClient.query(query, [
+        const userId = (await PgClient.query(query, [
             username,
-            moment.tz(Date.now(), "Europe/Riga").format("YYYY-MM-DDTHH:mm:ss")
+            dateNow()
         ])).rows[0];
 
-        res.status(HttpStatus.OK).json(user_id);
+        res.status(HttpStatus.OK).json({ userId: userId.user_id });
     } catch (error) {
         res.status(HttpStatus.BAD_REQUEST).json({ message: error.message });
     }

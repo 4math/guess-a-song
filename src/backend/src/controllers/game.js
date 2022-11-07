@@ -7,6 +7,9 @@ import { getAudioDurationInSeconds } from 'get-audio-duration';
 import MP3Cutter from "mp3-cutter/lib/cutter.js";
 import fs from 'fs';
 
+export function dateNow() {
+    return moment(new Date()).tz("Europe/Riga").format("YYYY-MM-DDTHH:mm:ss");
+}
 
 async function cutSong(songPath, fragmentDuration) {
     const duration = await getAudioDurationInSeconds(songPath);
@@ -94,6 +97,24 @@ export async function getMaterial(req, res) {
     }
 }
 
+export async function updateGameEndDate(req, res) {
+    try {
+        const gameId = req.params.gameId;
+        const query = `
+            update games
+            set game_ended_at = $1
+            where game_id = $2
+        `;
+        await PgClient.query(query, [
+            dateNow(),
+            gameId
+        ]);
+        res.status(HttpStatus.OK).json({ success: true });
+    } catch (error) {
+        res.status(HttpStatus.NOT_FOUND).json({ message: error.message });
+    }
+}
+
 export async function updateGameRoundScore(req, res) {
     try {
         const { score } = req.body;
@@ -144,7 +165,7 @@ export async function startGame(req, res) {
             insert into games (game_started_at, user_id, game_regime) values ($1, $2, $3) returning game_id;
         `;
         const gameId = (await PgClient.query(query, [
-            moment(new Date()).tz("Europe/Riga").format("YYYY-MM-DDTHH:mm:ss"),
+            dateNow(),
             userId.user_id,
             genre
         ])).rows[0];

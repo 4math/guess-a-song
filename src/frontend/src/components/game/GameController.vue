@@ -32,23 +32,35 @@ export default {
       genre: "",
       whatToGuess: "",
       gameId: "",
+      userId: "",
       answers: [],
       correctAnswer: "",
       songLink: "",
+      score: 0,
     };
   },
   async created() {
     this.genre = localStorage.getItem("genre");
     this.gameId = localStorage.getItem("gameId");
+    this.userId = localStorage.getItem("userId");
     await this.getMaterial();
   },
   methods: {
+    async endGame() {
+      await axios.put(`/api/game/${this.gameId}`);
+      this.score = await axios.post("api/leaderboard", {
+        userId: this.userId,
+        gameId: this.gameId,
+      });
+      this.$router.push("/leaderboard");
+    },
     async guessingScreenReady(roundScore) {
       await axios.put(`/api/gameRound/${this.gameId}/${this.round}`, {
         score: roundScore,
       });
       if (this.round++ === 10) {
-        this.$router.push("/leaderboard");
+        await this.endGame();
+        return;
       }
       this.currentScreen = 1;
       this.answers = [];

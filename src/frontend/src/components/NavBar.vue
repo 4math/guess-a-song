@@ -22,12 +22,16 @@ export default {
   data() {
     return {
       activeIndex: "0",
-      username: "",
+      username: "Username",
     };
   },
   mounted() {
     if (localStorage.username) {
       this.username = localStorage.username;
+    } else {
+      this.$emitter.on("setup-user", (username) => {
+        this.username = username;
+      });
     }
   },
   methods: {
@@ -43,7 +47,7 @@ export default {
   flex-grow: 1;
 }
 
-.el-menu-item__disabled {
+.el-menu-item .disabled {
   color: red;
 }
 </style>

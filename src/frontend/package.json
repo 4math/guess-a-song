@@ -12,6 +12,7 @@
     "dotenv": "^16.0.3",
     "dotenv-expand": "^9.0.0",
     "element-plus": "^2.2.19",
+    "mitt": "^3.0.0",
     "vue": "^3.2.38",
     "vue-axios": "^3.5.0",
     "vue-router": "^4.1.5"

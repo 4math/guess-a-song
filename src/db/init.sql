@@ -56,7 +56,9 @@ CREATE TABLE IF NOT EXISTS game_rounds (
     guessing_theme VARCHAR(8) NOT NULL,
     guess_score INT NULL,
     game_round INT NOT NULL,
+    game_id UUID NOT NULL,
     song_id INT NOT NULL,
     CONSTRAINT games_rounds_songs_fk FOREIGN KEY (song_id) REFERENCES songs (song_id),
-    CONSTRAINT guessing_theme_check CHECK (guessing_theme IN ('author', 'song_name'))
+    CONSTRAINT games_rounds_games_fk FOREIGN KEY (game_id) REFERENCES games (game_id),
+    CONSTRAINT guessing_theme_check CHECK (guessing_theme IN ('bandName', 'songName'))
 );

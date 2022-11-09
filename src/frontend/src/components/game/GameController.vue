@@ -10,6 +10,7 @@
     :answers="answers"
     :correctAnswer="correctAnswer"
     :songLink="songLink"
+    :fullAnswer="fullAnswer"
     @done-guessing="guessingScreenReady"
     v-if="currentScreen === 2"
   />
@@ -37,6 +38,7 @@ export default {
       correctAnswer: "",
       songLink: "",
       score: 0,
+      fullAnswer: "",
     };
   },
   async created() {
@@ -58,7 +60,7 @@ export default {
       await axios.put(`/api/gameRound/${this.gameId}/${this.round}`, {
         score: roundScore,
       });
-      if (this.round++ === 8) {
+      if (this.round++ === 2) {
         await this.endGame();
         return;
       }
@@ -73,6 +75,7 @@ export default {
         `/api/material/${this.gameId}/${this.round}`
       );
       const data = response.data;
+      this.fullAnswer = `${data.songAuthor} - ${data.songName}`;
       this.whatToGuess = data.guessingTheme;
       this.correctAnswer = data.correctAnswer;
       this.answers = [];

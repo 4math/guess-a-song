@@ -1,40 +1,43 @@
 <template>
   <div class="main flex justify-between items-center flex-wrap">
-    <div>
-      <el-progress type="dashboard" :percentage="percentage" :color="colors">
-        {{ currentPlayTime }}
-      </el-progress>
+    <div class="module center">
+      <div class="progress">
+        <el-progress type="dashboard" :percentage="percentage" :color="colors">
+          {{ currentPlayTime }}
+        </el-progress>
+      </div>
+      <div class="row">
+        <el-button round="true" @click="giveAnswer(answers[0])">{{
+          answers[0]
+        }}</el-button>
+        <el-button round="true" @click="giveAnswer(answers[1])">{{
+          answers[1]
+        }}</el-button>
+      </div>
+      <div class="row">
+        <el-button round="true" @click="giveAnswer(answers[2])">{{
+          answers[2]
+        }}</el-button>
+        <el-button round="true" @click="giveAnswer(answers[3])">{{
+          answers[3]
+        }}</el-button>
+      </div>
+      <p>
+        <span>{{ userAnswer }}</span>
+      </p>
+      <p v-if="isRoundEnd"><b>Score: </b>{{ roundScore }}</p>
+      <p v-if="isRoundEnd"><b>Full song name: </b>{{ fullAnswer }}</p>
+      <el-button round="true" @click="nextRound" v-if="isRoundEnd"
+        >Next round</el-button
+      >
     </div>
-    <div class="row">
-      <el-button round="true" @click="giveAnswer(answers[0])">{{
-        answers[0]
-      }}</el-button>
-      <el-button round="true" @click="giveAnswer(answers[1])">{{
-        answers[1]
-      }}</el-button>
-    </div>
-    <div class="row">
-      <el-button round="true" @click="giveAnswer(answers[2])">{{
-        answers[2]
-      }}</el-button>
-      <el-button round="true" @click="giveAnswer(answers[3])">{{
-        answers[3]
-      }}</el-button>
-    </div>
-    <p>
-      <span>{{ userAnswer }}</span>
-    </p>
-    <p v-if="isRoundEnd"><b>Score: </b>{{ roundScore }}</p>
-    <el-button round="true" @click="nextRound" v-if="isRoundEnd"
-      >Next round</el-button
-    >
   </div>
 </template>
 
 <script>
 export default {
   name: "GuessingScreen",
-  props: ["answers", "correctAnswer", "songLink"],
+  props: ["answers", "correctAnswer", "songLink", "fullAnswer"],
   data() {
     return {
       songFragment: null,
@@ -119,14 +122,35 @@ export default {
 </script>
 
 <style scoped>
+.progress {
+  margin: auto;
+  left: 38%;
+  position: relative;
+}
+
 .el-button {
   width: 100%;
   display: inline-block;
 }
 .main {
+  width: 100%;
+  height: 500px;
+}
+
+.main > div {
+  padding: 1rem;
+}
+
+.center {
+  /* display: flex; */
+  align-items: center;
+  justify-content: center;
+}
+
+.module {
   margin: auto;
-  width: 30%;
-  height: 30%;
+  width: 50%;
+  height: 300px;
 }
 
 .row div {

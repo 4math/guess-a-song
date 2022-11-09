@@ -1,6 +1,8 @@
 <template>
-  <NavBar v-if="notGameScreen" />
-  <RouterView />
+  <div :style="inlineStyle">
+    <NavBar v-if="notGameScreen" />
+    <RouterView />
+  </div>
 </template>
 
 <script>
@@ -17,6 +19,14 @@ export default {
         return false;
       }
       return true;
+    },
+    bgImage() {
+      return new URL("./assets/images/background6.webp", import.meta.url).href;
+    },
+    inlineStyle() {
+      return {
+        backgroundImage: `url(${this.bgImage})`,
+      };
     },
   },
   methods: {},

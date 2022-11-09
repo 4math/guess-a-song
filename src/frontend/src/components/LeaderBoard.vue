@@ -14,6 +14,8 @@
 
 <script>
 import axios from "axios";
+import moment from "moment";
+import "moment-timezone";
 export default {
   name: "LeaderBoardComponent",
   data() {
@@ -25,15 +27,18 @@ export default {
   async mounted() {
     const response = await axios.get("api/leaderboard");
     this.tableData = response.data;
+    this.tableData.forEach(
+      (x) =>
+        (x.date = moment(x.date)
+          .tz("Europe/Riga")
+          .format("YYYY-MM-DD HH:mm:ss"))
+    );
   },
   methods: {
     tableRowClassName(row) {
       console.log(row);
-      if (row.rowIndex === 0) {
-        console.log("Warning!");
+      if (row.rowIndex % 2 === 0) {
         return "warning-row";
-      } else if (row.rowIndex === 3) {
-        return "success-row";
       }
       return "";
     },

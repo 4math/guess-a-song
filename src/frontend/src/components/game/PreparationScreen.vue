@@ -2,7 +2,7 @@
   <div class="main">
     <p>
       <span>
-        Round: <b>{{ round }}/10</b></span
+        Round: <b>{{ round }}/8</b></span
       >
     </p>
     <p>

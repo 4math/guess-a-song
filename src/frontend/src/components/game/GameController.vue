@@ -58,7 +58,7 @@ export default {
       await axios.put(`/api/gameRound/${this.gameId}/${this.round}`, {
         score: roundScore,
       });
-      if (this.round++ === 10) {
+      if (this.round++ === 8) {
         await this.endGame();
         return;
       }

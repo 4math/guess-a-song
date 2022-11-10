@@ -56,6 +56,7 @@ export default {
     };
   },
   async created() {
+    console.log(this.songLink);
     this.songFragment = new Audio(this.songLink);
     this.songFragment.crossOrigin = "anonymous";
     this.songFragment.addEventListener("timeupdate", this.updateSongTime);
@@ -104,7 +105,14 @@ export default {
     },
     async playSound() {
       this.songFragment.autoplay = true;
-      await this.songFragment.play();
+      let song = this.songFragment.play();
+      song
+        .then(() => {
+          console.log("Playing!");
+        })
+        .catch((err) => {
+          console.log("Error!" + err);
+        });
     },
   },
   watch: {

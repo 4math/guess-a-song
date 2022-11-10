@@ -34,6 +34,7 @@ export async function playSong(req, res) {
             'Content-Type': 'audio/mp3',
             'Connection': 'Keep-Alive',
             'Transfer-encoding': 'chunked',
+            'Access-Control-Allow-Origin': '*',
             'Content-Length': stat.size
         });
 

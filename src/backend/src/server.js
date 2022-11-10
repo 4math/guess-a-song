@@ -16,7 +16,7 @@ PgClient.connect();
 
 // Application middlewares
 var corsOptions = {
-  origin: `http://localhost`,
+  origin: `*`,
 };
 
 app.use(cors(corsOptions));

@@ -59,12 +59,12 @@ export default {
     this.songFragment = new Audio(this.songLink);
     this.songFragment.addEventListener("timeupdate", this.updateSongTime);
   },
-  mounted() {
-    this.playSound();
+  async mounted() {
+    await this.playSound();
   },
   methods: {
-    nextRound() {
-      this.playSound();
+    async nextRound() {
+      await this.playSound();
       this.songFragment.src = null;
       this.songFragment.currentTime = 0;
       this.$emit("done-guessing", this.roundScore);
@@ -101,9 +101,9 @@ export default {
     convertToPercentage(num) {
       return (num * 100) / 15;
     },
-    playSound() {
+    async playSound() {
       this.songFragment.autoplay = true;
-      this.songFragment.play();
+      await this.songFragment.play();
     },
   },
   watch: {

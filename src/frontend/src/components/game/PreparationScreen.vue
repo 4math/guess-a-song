@@ -18,7 +18,7 @@
     <p>
       <span class="emoji">{{ getGenreEmoji() }}</span>
     </p>
-    <span>Timer: {{ countDown }}</span>
+    <span><b>Prepare in:</b> {{ countDown }}</span>
   </div>
 </template>
 
@@ -80,6 +80,7 @@ export default {
   height: 50%;
   width: 50%;
   margin: auto;
+  text-align: center;
 }
 
 .emoji {

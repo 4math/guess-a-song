@@ -2,34 +2,50 @@
   <div class="main flex justify-between items-center flex-wrap">
     <div class="module center">
       <div class="progress">
-        <el-progress type="dashboard" :percentage="percentage" :color="colors">
+        <el-progress
+          :width="200"
+          type="dashboard"
+          :percentage="percentage"
+          :color="colors"
+        >
           {{ currentPlayTime }}
         </el-progress>
       </div>
       <div class="row">
-        <el-button round="true" @click="giveAnswer(answers[0])">{{
-          answers[0]
-        }}</el-button>
-        <el-button round="true" @click="giveAnswer(answers[1])">{{
-          answers[1]
-        }}</el-button>
+        <el-button round="true" @click="giveAnswer(answers[0])"
+          ><b>{{ answers[0] }}</b></el-button
+        >
+        <el-button round="true" @click="giveAnswer(answers[1])"
+          ><b>{{ answers[1] }}</b></el-button
+        >
       </div>
       <div class="row">
-        <el-button round="true" @click="giveAnswer(answers[2])">{{
-          answers[2]
-        }}</el-button>
-        <el-button round="true" @click="giveAnswer(answers[3])">{{
-          answers[3]
-        }}</el-button>
+        <el-button round="true" @click="giveAnswer(answers[2])"
+          ><b>{{ answers[2] }}</b></el-button
+        >
+        <el-button round="true" @click="giveAnswer(answers[3])"
+          ><b>{{ answers[3] }}</b></el-button
+        >
       </div>
-      <p>
-        <span>{{ userAnswer }}</span>
-      </p>
-      <p v-if="isRoundEnd"><b>Score: </b>{{ roundScore }}</p>
-      <p v-if="isRoundEnd"><b>Full song name: </b>{{ fullAnswer }}</p>
-      <el-button round="true" @click="nextRound" v-if="isRoundEnd"
-        >Next round</el-button
-      >
+      <div class="answers">
+        <p>
+          <span :style="answerStyle">{{ userAnswer }}</span>
+        </p>
+        <p v-if="isRoundEnd"><b>Score: </b>{{ roundScore }}</p>
+        <p v-if="isRoundEnd"><b>Full correct song name: </b>{{ fullAnswer }}</p>
+        <el-button
+          style="
+            width: 50%;
+            text-align: center;
+            background-color: dodgerblue;
+            color: white;
+          "
+          round="true"
+          @click="nextRound"
+          v-if="isRoundEnd"
+          ><b>Next round</b></el-button
+        >
+      </div>
     </div>
   </div>
 </template>
@@ -53,6 +69,7 @@ export default {
         { color: "#1989fa", percentage: 40 },
         { color: "#6f7ad3", percentage: 20 },
       ],
+      answerStyle: { color: "black" },
     };
   },
   async created() {
@@ -73,10 +90,12 @@ export default {
     },
     giveAnswer(answer) {
       if (answer === this.correctAnswer) {
+        this.answerStyle.color = "green";
         this.userAnswer = "Answer: A correct one!";
         this.calculateScore(true);
       } else {
-        this.userAnswer = `Answer: A wrong one! Correct is ${this.correctAnswer}`;
+        this.answerStyle.color = "red";
+        this.userAnswer = "Answer: A wrong one!";
         this.calculateScore(false);
       }
       this.isRoundEnd = true;
@@ -128,6 +147,14 @@ export default {
 </script>
 
 <style scoped>
+.answers {
+  margin: auto;
+  text-align: center;
+}
+
+p {
+  font-size: 24px;
+}
 .progress {
   margin: auto;
   left: 38%;
@@ -136,6 +163,7 @@ export default {
 
 .el-button {
   width: 100%;
+  height: 50px;
   display: inline-block;
 }
 .main {

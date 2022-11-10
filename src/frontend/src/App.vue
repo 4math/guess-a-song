@@ -21,11 +21,12 @@ export default {
       return true;
     },
     bgImage() {
-      return new URL("./assets/images/background6.webp", import.meta.url).href;
+      return new URL("./assets/images/background8.webp", import.meta.url).href;
     },
     inlineStyle() {
       return {
         backgroundImage: `url(${this.bgImage})`,
+        height: "880px",
       };
     },
   },

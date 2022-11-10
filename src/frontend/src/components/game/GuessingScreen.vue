@@ -89,7 +89,11 @@ export default {
             this.songFragment.duration +
           0.05;
         this.roundScore = Math.floor(this.roundScore);
-        this.roundScore = Math.min(this.roundScore, 1000);
+        if (!isNaN(this.roundScore)) {
+          this.roundScore = Math.min(this.roundScore, 1000);
+        } else {
+          this.roundScore = 1000;
+        }
         return;
       }
       this.roundScore = 0;

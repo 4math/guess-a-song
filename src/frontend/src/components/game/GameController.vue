@@ -3,6 +3,7 @@
     :round="round"
     :genre="genre"
     :what-to-guess="whatToGuess"
+    :is-ready="isReady"
     @done-counting="preparationScreenReady"
     v-if="currentScreen === 1"
   />
@@ -39,6 +40,7 @@ export default {
       songLink: "",
       score: 0,
       fullAnswer: "",
+      isReady: false,
     };
   },
   async created() {
@@ -66,6 +68,7 @@ export default {
       }
       await this.getMaterial();
       this.currentScreen = 1;
+      this.isReady = false;
     },
     async preparationScreenReady() {
       this.currentScreen = 2;
@@ -83,9 +86,12 @@ export default {
       this.answers.push(...data.incorrectAnswers);
       this.shuffleArray(this.answers);
 
-      this.songLink = `${
-        import.meta.env.VITE_API_URL
-      }/api/playSong/${encodeURIComponent(data.songPath)}`;
+      const api = import.meta.env.VITE_SONG_API_URL;
+      this.songLink = `${api}/api/playSong/${encodeURIComponent(
+        data.songPath
+      )}`;
+      this.isReady = true;
+      console.log(this.songLink);
     },
     shuffleArray(array) {
       let currentIndex = array.length,

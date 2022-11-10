@@ -25,15 +25,21 @@
 <script>
 export default {
   name: "PreparationScreen",
-  props: ["round", "genre", "whatToGuess"],
+  props: ["round", "genre", "whatToGuess", "isReady"],
   data() {
     return {
-      countDown: 4,
+      countDown: 8,
     };
   },
   created() {
-    this.countDown = 4;
+    this.countDown = 8;
     this.countDownTimer();
+  },
+  watch: {
+    // isReady(newVal, oldVal) {
+    //   // console.log("Prop changed: ", newVal, " | was: ", oldVal);
+    //   // this.countDownTimer();
+    // },
   },
   methods: {
     getGenreEmoji() {

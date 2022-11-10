@@ -57,6 +57,7 @@ export default {
   },
   async created() {
     this.songFragment = new Audio(this.songLink);
+    this.songFragment.crossOrigin = "anonymous";
     this.songFragment.addEventListener("timeupdate", this.updateSongTime);
   },
   async mounted() {

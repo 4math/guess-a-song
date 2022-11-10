@@ -105,14 +105,7 @@ export default {
     },
     async playSound() {
       this.songFragment.autoplay = true;
-      let song = this.songFragment.play();
-      song
-        .then(() => {
-          console.log("Playing!");
-        })
-        .catch((err) => {
-          console.log("Error!" + err);
-        });
+      await this.songFragment.play();
     },
   },
   watch: {

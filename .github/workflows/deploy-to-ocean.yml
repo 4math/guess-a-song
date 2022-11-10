@@ -26,6 +26,9 @@ jobs:
             # Stop existing running containers
             docker stop $(docker ps -a -q)
 
+            # Prune all cache
+            docker builder prune -a
+
             # Run a docker-compose file
             docker compose \
             -f docker-compose.prod.yml up \

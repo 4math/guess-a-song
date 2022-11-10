@@ -83,9 +83,9 @@ export default {
       this.answers.push(...data.incorrectAnswers);
       this.shuffleArray(this.answers);
 
-      this.songLink = `http://localhost:9091/api/playSong/${encodeURIComponent(
-        data.songPath
-      )}`;
+      this.songLink = `${
+        import.meta.env.VITE_API_URL
+      }/api/playSong/${encodeURIComponent(data.songPath)}`;
     },
     shuffleArray(array) {
       let currentIndex = array.length,
